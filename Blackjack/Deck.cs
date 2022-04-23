@@ -73,12 +73,12 @@ public class Deck
     /// Draw the top card from the deck and add to hand. If the deck is empty, returns null.
     /// </summary>
     /// <returns>the top card</returns>
-    public Card? DrawTopCard(Hand hand, bool faceUp = false)
+    public Card? DrawTopCard(Hand hand, bool IsFaceUp = false)
     {
         if (!Empty)
         {
             Card topCard = _cards[_cards.Count - 1];
-            if (faceUp == true) topCard.FlipOver();
+            if (IsFaceUp == true) topCard.FlipOver();
             _cards.RemoveAt(_cards.Count - 1);
             hand.Cards.Add(topCard);
             return topCard;

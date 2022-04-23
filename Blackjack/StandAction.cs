@@ -1,8 +1,11 @@
-﻿public class StandAction : IAction
+﻿/// <summary>
+/// Represents the action to "Stand". 
+/// </summary>
+public class StandAction : IAction
 {
     public void Run(Round round, Character character)
     {
-        character.IsStand = true;
+        character.IsStanding = true;
         Console.WriteLine($"{character.Name} STOOD!");
     }
 }

@@ -3,12 +3,12 @@
     public void Run(Round round, Character dealer)
     {
         // First Turn
-        round.Gambler.Hand = new Hand(1, round.Deck, faceUp: true);
-        dealer.Hand = new Hand(1, round.Deck, faceUp: true);
+        round.Gambler.Hand = new Hand(1, round.Deck, isFaceUp: true);
+        dealer.Hand = new Hand(1, round.Deck, isFaceUp: true);
 
         //Second Turn
-        round.Gambler.Hand.AddCard(round.Deck, faceUp: true);
-        dealer.Hand.AddCard(round.Deck, faceUp: false);
+        round.Gambler.Hand.AddCard(round.Deck, isFaceUp: true);
+        dealer.Hand.AddCard(round.Deck, isFaceUp: false);
 
         Console.WriteLine("Deal round is over.");
     }

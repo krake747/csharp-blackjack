@@ -1,4 +1,4 @@
-﻿/// <summary>
+﻿ /// <summary>
 /// Represents a Card.
 /// </summary>
 public class Card
@@ -6,7 +6,7 @@ public class Card
     public Suit Suit { get; }
     public Rank Rank { get; }
     public int Score { get; }
-    public bool FaceUp { get; set; } = false;
+    public bool IsFaceUp { get; set; } = false;
 
     /// <summary>
     /// Constructs a card with the given suit and rank.
@@ -21,20 +21,18 @@ public class Card
     /// <summary>
     /// Flips the card over.
     /// </summary>
-    public void FlipOver() => FaceUp = !FaceUp;
+    public void FlipOver() => IsFaceUp = !IsFaceUp;
 
     /// <summary>
     /// Prints a card with the given suit and rank in the console.
     /// </summary>
     public void Print(bool addSpace = false)
     {
-        char suitSymbol = !FaceUp ? ' ' : Suit.GetSymbol();
-        char rankSymbol = !FaceUp ? ' ' : Rank.GetSymbol();
+        char suitSymbol = !IsFaceUp ? ' ' : Suit.GetSymbol();
+        char rankSymbol = !IsFaceUp ? ' ' : Rank.GetSymbol();
         ColoredConsole.Write($"{suitSymbol}{rankSymbol}", this.SuitColor(), this.FaceUpColor());
         if (addSpace) Console.Write(" ");
     }
-
-
 }
 
 /// <summary>
@@ -42,11 +40,11 @@ public class Card
 /// </summary>
 public static class CardExtensions
 {
-    public static ConsoleColor FaceUpColor(this Card card) => card.FaceUp == true ? ConsoleColor.White : ConsoleColor.DarkBlue;
-    public static ConsoleColor SuitColor(this Card card) => card switch
+    public static ConsoleColor FaceUpColor(this Card card) => card.IsFaceUp ? ConsoleColor.White : ConsoleColor.DarkBlue;
+    public static ConsoleColor SuitColor(this Card card) => card.Suit switch
     {
-        { Suit: Suit.Clubs or Suit.Spades } => ConsoleColor.Black,
-        { Suit: Suit.Hearts or Suit.Diamonds } => ConsoleColor.Red,
+        Suit.Clubs or Suit.Spades => ConsoleColor.Black,
+        Suit.Hearts or Suit.Diamonds => ConsoleColor.Red,
         _ => throw new ArgumentException("No other colors defined!")
     };
 }

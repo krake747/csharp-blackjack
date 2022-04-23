@@ -44,20 +44,20 @@
             Dealer.Player.ChooseAction(this, Dealer).Run(this, Dealer);
             RoundRenderer.Render(this, (Character)Dealer);
 
-            if (Dealer.IsBust || Dealer.IsStand) break;
-            if (!Dealer.IsBust && Gambler.IsBust) break;
+            if (Dealer.HasBust || Dealer.IsStanding) break;
+            if (!Dealer.HasBust && Gambler.HasBust) break;
             if (Gambler.HasBlackjack && !Dealer.HasBlackjack) break;
-            if (!Dealer.IsBust && IsGamblerOver && Dealer.Hand.Score > Gambler.Hand.Score) break;
+            if (!Dealer.HasBust && IsGamblerOver && Dealer.Hand.Score > Gambler.Hand.Score) break;
         }
 
         Console.WriteLine($"Round is over!");
-        if (Dealer.IsBust) ColoredConsole.WriteLine($"Gambler wins!", ConsoleColor.Green);
-        else if (Dealer.Hand.Score > Gambler.Hand.Score && !Dealer.IsBust) ColoredConsole.WriteLine($"House wins!", ConsoleColor.Red);
-        else if  (Gambler.IsBust) ColoredConsole.WriteLine($"House wins!", ConsoleColor.Red);
-        else if (Dealer.Hand.Score < Gambler.Hand.Score && !Gambler.IsBust) ColoredConsole.WriteLine($"Gambler wins!", ConsoleColor.Green);
+        if (Dealer.HasBust) ColoredConsole.WriteLine($"Gambler wins!", ConsoleColor.Green);
+        else if (Dealer.Hand.Score > Gambler.Hand.Score && !Dealer.HasBust) ColoredConsole.WriteLine($"House wins!", ConsoleColor.Red);
+        else if  (Gambler.HasBust) ColoredConsole.WriteLine($"House wins!", ConsoleColor.Red);
+        else if (Dealer.Hand.Score < Gambler.Hand.Score && !Gambler.HasBust) ColoredConsole.WriteLine($"Gambler wins!", ConsoleColor.Green);
         else ColoredConsole.WriteLine($"No one wins!", ConsoleColor.Yellow);
     }
 
-    public bool IsOver => Dealer.IsBust || Dealer.HasBlackjack;    
-    public bool IsGamblerOver => Gambler.IsBust || Gambler.IsStand || Gambler.HasBlackjack;    
+    public bool IsOver => Dealer.HasBust || Dealer.HasBlackjack;    
+    public bool IsGamblerOver => Gambler.HasBust || Gambler.IsStanding || Gambler.HasBlackjack;    
 }
