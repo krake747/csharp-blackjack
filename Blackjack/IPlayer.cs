@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-public interface IPlayer
+﻿public interface IPlayer
 {
-    IAction ChooseAction();
+    IAction ChooseAction(Round round, Character character);
 }
 

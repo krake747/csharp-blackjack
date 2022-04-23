@@ -9,17 +9,17 @@ public enum Suit
     Diamonds = 4
 }
 
+/// <summary>
+/// Extension class for Enum Suit.
+/// </summary>
 public static class SuitExtensions
 {
-    public static char GetSymbol(this Suit suit)
+    public static char GetSymbol(this Suit suit) => suit switch
     {
-        return suit switch
-        {
-            Suit.Clubs => '\u2663',
-            Suit.Spades => '\u2660',
-            Suit.Hearts => '\u2665',
-            Suit.Diamonds => '\u2666',
-            _ =>throw new ArgumentException("Suit is not defined!")
-        };
-    }
+        Suit.Clubs => '\u2663',
+        Suit.Spades => '\u2660',
+        Suit.Hearts => '\u2665',
+        Suit.Diamonds => '\u2666',
+        _ =>throw new ArgumentException("Suit is not defined!")
+    };
 }

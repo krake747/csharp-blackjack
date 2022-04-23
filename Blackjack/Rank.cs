@@ -18,25 +18,33 @@ public enum Rank
     King = 13,
 }
 
+/// <summary>
+/// Extension class for Enum Rank.
+/// </summary>
 public static class RankExtensions
 {
-    public static char GetSymbol(this Rank rank)
+    public static char GetSymbol(this Rank rank) => rank switch
     {
-        return rank switch
-        {
-            Rank.Ace => 'A',
-            Rank.Two => '2',
-            Rank.Three => '3',
-            Rank.Four => '4',
-            Rank.Five => '5',
-            Rank.Six => '6',
-            Rank.Seven => '7',
-            Rank.Eight => '8',
-            Rank.Nine => '9',
-            Rank.Ten => 'T',
-            Rank.Jack => 'J',
-            Rank.Queen => 'Q',
-            Rank.King => 'K'
-        };
-    }
+        Rank.Ace => 'A',
+        Rank.Two => '2',
+        Rank.Three => '3',
+        Rank.Four => '4',
+        Rank.Five => '5',
+        Rank.Six => '6',
+        Rank.Seven => '7',
+        Rank.Eight => '8',
+        Rank.Nine => '9',
+        Rank.Ten => 'T',
+        Rank.Jack => 'J',
+        Rank.Queen => 'Q',
+        Rank.King => 'K',
+        _ => throw new ArgumentException("Rank is not defined!")
+    };
+
+    public static int GetScore(this Rank rank) => rank switch
+    {
+        Rank.Ace => 11,
+        Rank.Jack or Rank.Queen or Rank.King => 10,
+        _ => (int)rank,
+    };
 }

@@ -1,18 +1,18 @@
 ﻿Console.Title = "Blackjack";
 
-string name = ColoredConsole.Prompt("What is your name?").ToUpper();
+//string name = ColoredConsole.Prompt("What is your name?").ToUpper();
 
-IPlayer player1, player2;
-player1 = new ConsolePlayer(name);
-player2 = new ComputerPlayer();
+IPlayer player1 = new ComputerPlayer();
 
-Deck deck = new Deck();
-deck.Shuffle();
+Dealer dealer = new Dealer(new ComputerPlayer());
+Gambler gambler = new Gambler(player1);
 
-Hand hand = new Hand(2, deck);
+Hand hand = new Hand();
+hand.AddSpecificCard(new Card(Suit.Hearts, Rank.Ace) { FaceUp = true });
+hand.AddSpecificCard(new Card(Suit.Diamonds, Rank.Ace) { FaceUp = true });
+hand.AddSpecificCard(new Card(Suit.Diamonds, Rank.Jack) { FaceUp = true });
 
-Card card = new Card(Suit.Hearts, Rank.Ace);
-card.FlipOver();
-card.Print();
+Round round = new Round(dealer, gambler);
+round.Run();
 
 Console.ReadKey();

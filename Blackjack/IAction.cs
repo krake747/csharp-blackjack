@@ -1,5 +1,5 @@
 ﻿public interface IAction
 {
-    void Run();
+    void Run(Round round, Character character);
 }
 

@@ -7,7 +7,6 @@ public class Deck
 {
     private readonly Random _random = new Random();
     private List<Card> _cards = new List<Card>();
-
     public List<Card> Cards => _cards;
     /// <summary>
     /// Gets whether the deck is empty
@@ -64,7 +63,6 @@ public class Deck
         {
             Card topCard = _cards[_cards.Count - 1];
             _cards.RemoveAt(_cards.Count - 1);
-
             return topCard;
         }
         else
@@ -75,11 +73,12 @@ public class Deck
     /// Draw the top card from the deck and add to hand. If the deck is empty, returns null.
     /// </summary>
     /// <returns>the top card</returns>
-    public Card? DrawTopCard(Hand hand)
+    public Card? DrawTopCard(Hand hand, bool faceUp = false)
     {
         if (!Empty)
         {
             Card topCard = _cards[_cards.Count - 1];
+            if (faceUp == true) topCard.FlipOver();
             _cards.RemoveAt(_cards.Count - 1);
             hand.Cards.Add(topCard);
             return topCard;
@@ -89,13 +88,9 @@ public class Deck
     }
 
     /// <summary>
-    /// Prints the contents of the deck
+    /// Prints the contents of the deck.
     /// </summary>
-    public void Print()
-    {
-        foreach (Card card in _cards)
-            Console.WriteLine($"{card.Rank} of {card.Suit}");
-    }
+    public void Print() => _cards.ForEach(c => Console.WriteLine($"{c.Rank} of {c.Suit}"));
 }
 
 [Serializable]
@@ -105,5 +100,4 @@ internal class DeckException : Exception
     public DeckException(string message) : base(message) { }
     public DeckException(string message, Exception innerException) : base(message, innerException) { }
     protected DeckException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
 }
