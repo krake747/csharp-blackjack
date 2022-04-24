@@ -3,7 +3,7 @@
 /// </summary>
 public class Hand
 {
-    private List<Card> _cards;
+    private List<Card> _cards = new List<Card>();
     public List<Card> Cards => _cards;
     public int Score => CalculateScore(true);
     public int HiddenScore => CalculateScore();
@@ -12,10 +12,7 @@ public class Hand
     /// <summary>
     /// Constructs an empty hand.
     /// </summary>
-    public Hand()
-    {
-        _cards = new List<Card>();
-    }
+    public Hand() { }
 
     /// <summary>
     /// Constructs a starting hand from a given deck.
@@ -29,32 +26,49 @@ public class Hand
         if (deck is null) throw new DeckException("No deck available to draw from!");
         if (deck.Cards.Count == 0) throw new DeckException("No more cards to draw!");
 
-        _cards = new List<Card>();
-        for (int i = 0; i < startingHand; i++) deck.DrawTopCard(this, isFaceUp);
+        for (int i = 0; i < startingHand; i++) AddCard(deck, isFaceUp);
     }
+    
+    /// <summary>
+    /// Add a single card to hand.
+    /// </summary>
+    /// <param name="card"></param>
+    public void AddCard(Card card) => _cards.Add(card);
 
-    public void AddCard(Deck deck, bool isFaceUp = false) => deck.DrawTopCard(this, isFaceUp);
+    /// <summary>
+    /// Draw a card from a deck and add to hand.
+    /// </summary>
+    /// <param name="deck"></param>
+    /// <param name="isFaceUp"></param>
+    /// <exception cref="DeckException"></exception>
+    public void AddCard(Deck deck, bool isFaceUp = false) => _cards.Add(deck.Draw(isFaceUp) ?? throw new DeckException("No more cards to draw!"));
 
-    public void AddSpecificCard(Card card) => _cards.Add(card);
-
+    /// <summary>
+    /// Reveals all face down cards in hand.
+    /// </summary>
+    public void Reveal()
+    {
+        foreach (Card card in Cards) if (!card.IsFaceUp) card.FlipOver();
+    }
+    
     /// <summary>
     /// Prints the cards in hand to the console window.
     /// </summary>
     public void Print()
     {
         foreach (Card card in _cards) card.Print(true);
-        Console.WriteLine($"({this.Score})");
+        Console.WriteLine($"({Score})");
     }
     
     /// <summary>
     /// Calculates the total score of all face up cards in hand.  
     /// </summary>
-    /// <param name="IsFaceUp"></param>
+    /// <param name="isFaceUp"></param>
     /// <returns></returns>
-    private int CalculateScore(bool IsFaceUp = false)
+    private int CalculateScore(bool isFaceUp = false)
     {
         // Caculate hidden score or score of face up cards.
-        var cards = IsFaceUp ? _cards.Where(c => c.IsFaceUp).ToList() : _cards;
+        var cards = isFaceUp ? _cards.Where(c => c.IsFaceUp).ToList() : _cards;
         
         // Total Score
         int totalScore = cards.Sum(c => c.Score);

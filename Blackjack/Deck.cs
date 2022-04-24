@@ -6,36 +6,22 @@
 public class Deck
 {
     private readonly Random _random = new Random();
-    private List<Card> _cards = new List<Card>();
-    public List<Card> Cards => _cards;
+    public Stack<Card> Cards { get; set; } = new Stack<Card>();
+    public int Count => Cards.Count;
+    public bool IsEmpty => Cards.Count == 0;
 
     /// <summary>
-    /// Gets whether the deck is empty
+    /// Constructs a Deck with 52 face down cards.
     /// </summary>
-    public bool Empty => _cards.Count == 0;
-
-    /// <summary>
-    /// Constructs a Deck with with 52 cards.
-    /// </summary>
-    public Deck() 
+    public Deck(bool isShuffled = false) 
     {
+        List<Card> cards = new List<Card>();
         foreach (Suit suit in Enum.GetValues(typeof(Suit)))
             foreach (Rank rank in Enum.GetValues(typeof(Rank)))
-                _cards.Add(new Card(suit, rank));
-    }
+                cards.Add(new Card(suit, rank));
 
-    /// <summary>
-    /// Cuts the deck of cards at the given location
-    /// </summary>
-    /// <param name="location">the location at which to cut the deck</param>
-    public void Cut(int location)
-    {
-        int cutIndex = _cards.Count - location;
-        Card[] newCards = new Card[_cards.Count];
-        _cards.CopyTo(cutIndex, newCards, 0, location);
-        _cards.CopyTo(0, newCards, location, cutIndex);
-        _cards.Clear();
-        _cards.InsertRange(0, newCards);
+        if (isShuffled) Shuffle();
+        else Initialize(cards);
     }
 
     /// <summary>
@@ -45,25 +31,37 @@ public class Deck
     /// </summary>
     public void Shuffle()
     {
-        for (int i = _cards.Count - 1; i > 0; i--)
+        List<Card> cards = Cards.ToList();
+        for (int i = Cards.Count - 1; i > 0; i--)
         {
             int randomIndex = _random.Next(i + 1);
-            Card tempCard = _cards[i];
-            _cards[i] = _cards[randomIndex];
-            _cards[randomIndex] = tempCard;
+            Card tempCard = cards[i];
+            cards[i] = cards[randomIndex];
+            cards[randomIndex] = tempCard;
         }
-    }
 
+        Initialize(cards);
+    }
     /// <summary>
-    /// Draw the top card from the deck. If the deck is empty, returns null
+    /// Add card face down to the deck.
     /// </summary>
-    /// <returns>the top card</returns>
-    public Card? DrawTopCard()
+    /// <param name="card"></param>
+    public void Add(Card card) 
     {
-        if (!Empty)
+        if (card.IsFaceUp) card.FlipOver();
+        Cards.Push(card);
+    }
+    /// <summary>
+    /// Peek the top card from the deck. If the deck is empty, returns null
+    /// </summary>
+    /// <param name="isFaceUp"></param>
+    /// <returns>the top card</returns>
+    public Card? Peek(bool isFaceUp = true)
+    {
+        if (!IsEmpty)
         {
-            Card topCard = _cards[_cards.Count - 1];
-            _cards.RemoveAt(_cards.Count - 1);
+            Card topCard = Cards.Peek();
+            if (isFaceUp && !topCard.IsFaceUp) topCard.FlipOver();
             return topCard;
         }
         else
@@ -71,17 +69,16 @@ public class Deck
     }
 
     /// <summary>
-    /// Draw the top card from the deck and add to hand. If the deck is empty, returns null.
+    /// Draw the top card from the deck. If the deck is empty, returns null
     /// </summary>
+    /// <param name="isFaceUp"></param>
     /// <returns>the top card</returns>
-    public Card? DrawTopCard(Hand hand, bool IsFaceUp = false)
+    public Card? Draw(bool isFaceUp = false)
     {
-        if (!Empty)
+        if (!IsEmpty)
         {
-            Card topCard = _cards[_cards.Count - 1];
-            if (IsFaceUp == true) topCard.FlipOver();
-            _cards.RemoveAt(_cards.Count - 1);
-            hand.Cards.Add(topCard);
+            Card topCard = Cards.Pop();
+            if (isFaceUp && !topCard.IsFaceUp) topCard.FlipOver();
             return topCard;
         }
         else
@@ -91,7 +88,20 @@ public class Deck
     /// <summary>
     /// Prints the contents of the deck.
     /// </summary>
-    public void Print() => _cards.ForEach(c => Console.WriteLine($"{c.Rank} of {c.Suit}"));
+    public void Print() => Cards.ToList().ForEach(c => Console.WriteLine($"{c.Rank} of {c.Suit}"));
+    public static Deck ColdDeck() => new Deck();
+    public static Deck ShuffledDeck() => new Deck(true);
+
+    /// <summary>
+    /// Pushes all cards into the deck face down.
+    /// </summary>
+    /// <param name="cards"></param>
+    private void Initialize(List<Card> cards)
+    {
+        Cards.Clear();
+        cards.FindAll(c => c.IsFaceUp).ForEach(c => c.IsFaceUp = false);
+        for (int i = 0; i < cards.Count; i++) Cards.Push(cards[i]);
+    }
 }
 
 [Serializable]

@@ -2,13 +2,6 @@
 
 //string name = ColoredConsole.Prompt("What is your name?").ToUpper();
 
-Stack<Card> numbers = new Stack<Card>();
-numbers.Push(new Card(Suit.Clubs, Rank.Ace));
-numbers.Push(new Card(Suit.Clubs, Rank.Two));
-numbers.Push(new Card(Suit.Clubs, Rank.Three));
-
-
-
 IPlayer player = new ComputerPlayer();
 
 // Add dealer.
