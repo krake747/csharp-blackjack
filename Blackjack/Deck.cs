@@ -13,15 +13,14 @@ public class Deck
     /// <summary>
     /// Constructs a Deck with 52 face down cards.
     /// </summary>
-    public Deck(bool isShuffled = false) 
+    public Deck() 
     {
         List<Card> cards = new List<Card>();
         foreach (Suit suit in Enum.GetValues(typeof(Suit)))
             foreach (Rank rank in Enum.GetValues(typeof(Rank)))
                 cards.Add(new Card(suit, rank));
 
-        if (isShuffled) Shuffle();
-        else Initialize(cards);
+        Initialize(cards);
     }
 
     /// <summary>
@@ -89,8 +88,6 @@ public class Deck
     /// Prints the contents of the deck.
     /// </summary>
     public void Print() => Cards.ToList().ForEach(c => Console.WriteLine($"{c.Rank} of {c.Suit}"));
-    public static Deck ColdDeck() => new Deck();
-    public static Deck ShuffledDeck() => new Deck(true);
 
     /// <summary>
     /// Pushes all cards into the deck face down.
