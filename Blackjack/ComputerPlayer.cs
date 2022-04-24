@@ -16,7 +16,9 @@
             };
         }
 
-        if (character == round.Gambler)
+        List<Character> gamblers = round.GetParty(character).Characters;
+        Party x = round.GetOppositeParty(character);
+        if (gamblers.Contains(character))
         {
             return character.Hand switch
             {

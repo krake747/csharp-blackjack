@@ -1,18 +1,19 @@
 ﻿public class Round
 {
+    private WinChecker _winChecker;
+    public bool IsOver => _winChecker.IsOver;
     public Party Casino { get; }
     public Character Dealer { get; }
     public Party Gamblers { get; }
-    public Character Gambler { get; set; }
     public Deck Deck { get; } = new Deck();
-
+    
     public Round(Party casino, Party gamblers)
     {
         Casino = casino;
+        Dealer = Casino.Characters[0];
         Gamblers = gamblers;
         Deck.Shuffle();
-        Dealer = Casino.Characters[0];
-        Gambler = Gamblers.Characters[0];
+        _winChecker = new WinChecker(casino, gamblers);
     }
     public void Run() 
     {
@@ -24,7 +25,7 @@
         while (!IsOver)
         {
             // Run Gambler round until all gamblers stand, are bust or have Blackjack.
-            while (!IsGamblersRoundOver)
+            while (!_winChecker.IsGamblersOver)
             {
                 // For each Gambler on the table do action.
                 foreach (Character gambler in Gamblers.Characters)
@@ -39,7 +40,7 @@
 
                     RoundRenderer.Render(this, gambler);
 
-                    if (IsGamblersRoundOver) break;
+                    if (_winChecker.IsGamblersOver) break;
                 }
             }
 
@@ -48,24 +49,13 @@
             Console.WriteLine();
             RoundRenderer.Render(this, (Character)Dealer);
             
-
-            if (Dealer.HasBust || Dealer.IsStanding) break;
-            if (!Dealer.HasBust && Gambler.HasBust) break;
-            if (Gambler.HasBlackjack && !Dealer.HasBlackjack) break;
-            if (!Dealer.HasBust && IsGamblersRoundOver && Dealer.Hand.Score > Gambler.Hand.Score) break;
+            if (_winChecker.IsDealerOver) break;
         }
 
         Console.WriteLine($"Round is over!");
-        if (Dealer.HasBust) ColoredConsole.WriteLine($"Gambler wins!", ConsoleColor.Green);
-        else if (Dealer.Hand.Score > Gambler.Hand.Score && !Dealer.HasBust) ColoredConsole.WriteLine($"House wins!", ConsoleColor.Red);
-        else if  (Gambler.HasBust) ColoredConsole.WriteLine($"House wins!", ConsoleColor.Red);
-        else if (Dealer.Hand.Score < Gambler.Hand.Score && !Gambler.HasBust) ColoredConsole.WriteLine($"Gambler wins!", ConsoleColor.Green);
-        else ColoredConsole.WriteLine($"No one wins!", ConsoleColor.Yellow);
     }
-
-    public bool IsOver => Dealer.HasBust || Dealer.HasBlackjack;    
-    public bool IsGamblersRoundOver => Gambler.HasBlackjack || Gambler.HasTwentyOne || Gambler.HasBust || Gambler.IsStanding;
-    public Party GetCasinoParty(Character character) => Casino.Characters.Contains(character) ?  Gamblers : Casino;
-    public Party GetGamblersParty(Character character) => Casino.Characters.Contains(character) ? Casino : Gamblers;
+    public Party GetOppositeParty(Character character) => Casino.Characters.Contains(character) ? Gamblers : Casino;
+    public Party GetParty(Character character) => Casino.Characters.Contains(character) ? Casino : Gamblers;
+    
     
 }
