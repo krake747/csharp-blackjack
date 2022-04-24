@@ -8,6 +8,7 @@ public class Deck
     private readonly Random _random = new Random();
     private List<Card> _cards = new List<Card>();
     public List<Card> Cards => _cards;
+
     /// <summary>
     /// Gets whether the deck is empty
     /// </summary>

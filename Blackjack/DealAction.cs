@@ -11,5 +11,6 @@
         dealer.Hand.AddCard(round.Deck, isFaceUp: false);
 
         Console.WriteLine("Deal round is over.");
+        Console.WriteLine();
     }
 }

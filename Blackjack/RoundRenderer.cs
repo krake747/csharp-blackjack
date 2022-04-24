@@ -6,38 +6,27 @@
         Console.WriteLine("=============================================== TURN ===============================================");
 
         Console.WriteLine();
-        Console.Write($"{round.Dealer.Name,10}: "); round.Dealer.Hand.Print();
-        Console.WriteLine();
+        foreach (Character character in round.Casino.Characters)
+        {
+            ConsoleColor color = character == activeCharacter ? ConsoleColor.Yellow : ConsoleColor.Gray;
+            ColoredConsole.Write($"{character.Name,10} ", color); character.Hand.Print();
+            Console.WriteLine();
+        }
 
         // Display the middle banner.
         Console.WriteLine("------------------------------------------------ VS ------------------------------------------------");
 
         Console.WriteLine();
-        Console.Write($"{round.Gambler.Name,10}: "); round.Gambler.Hand.Print();
-        Console.WriteLine();
+        foreach (Character character in round.Gamblers.Characters)
+        {
+            ConsoleColor color = character == activeCharacter ? ConsoleColor.Yellow : ConsoleColor.Gray;
+            ColoredConsole.Write($"{character.Name,10} ", color); character.Hand.Print();
+            Console.WriteLine();
+        }
 
         // Display the bottom banner.
         Console.WriteLine("====================================================================================================");
-    }
-
-    public static void RenderDealRound(Round round)
-    {
-        // Display the top banner.
-        Console.WriteLine("=============================================== DEAL ===============================================");
-
         Console.WriteLine();
-        Console.Write($"{round.Dealer.Name,10}: "); round.Dealer.Hand.Print();
-        Console.WriteLine();
-
-        // Display the middle banner.
-        Console.WriteLine("------------------------------------------------ VS ------------------------------------------------");
-
-        Console.WriteLine();
-        Console.Write($"{round.Gambler.Name,10}: "); round.Gambler.Hand.Print();
-        Console.WriteLine();
-
-        // Display the bottom banner.
-        Console.WriteLine("====================================================================================================");
     }
 }
 

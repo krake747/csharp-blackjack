@@ -2,17 +2,24 @@
 
 //string name = ColoredConsole.Prompt("What is your name?").ToUpper();
 
-IPlayer player1 = new ComputerPlayer();
+Stack<Card> numbers = new Stack<Card>();
+numbers.Push(new Card(Suit.Clubs, Rank.Ace));
+numbers.Push(new Card(Suit.Clubs, Rank.Two));
+numbers.Push(new Card(Suit.Clubs, Rank.Three));
 
-Dealer dealer = new Dealer(new ComputerPlayer());
-Gambler gambler = new Gambler(player1);
 
-Hand hand = new Hand();
-hand.AddSpecificCard(new Card(Suit.Hearts, Rank.Ace) { IsFaceUp = true });
-hand.AddSpecificCard(new Card(Suit.Diamonds, Rank.Ace) { IsFaceUp = true });
-hand.AddSpecificCard(new Card(Suit.Diamonds, Rank.Jack) { IsFaceUp = true });
 
-Round round = new Round(dealer, gambler);
+IPlayer player = new ComputerPlayer();
+
+// Add dealer.
+Party casino = new Party(new ComputerPlayer());
+casino.Characters.Add(new Dealer());
+
+// Add gamblers.
+Party gamblers = new Party(player);
+gamblers.Characters.Add(new Gambler());
+
+Round round = new Round(casino, gamblers);
 round.Run();
 
 Console.ReadKey();

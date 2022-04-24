@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// /// Represents the action to "Hit". 
 /// </summary>
-public class DoHitAction : IAction
+public class HitAction : IAction
 {
     public void Run(Round round, Character character)
     {

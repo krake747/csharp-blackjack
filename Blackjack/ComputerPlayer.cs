@@ -10,7 +10,7 @@
             {
                 { Cards.Count: 0 } => new DealAction(),
                 { AllFaceUp: false } => new RevealAction(),
-                { AllFaceUp: true, Score: < 16 } => new DoHitAction(),
+                { AllFaceUp: true, Score: < 16 } => new HitAction(),
                 { AllFaceUp: true, Score: >= 16 } => new StandAction(),
                 _ => new DoNothingAction(),
             };
@@ -20,12 +20,11 @@
         {
             return character.Hand switch
             {
-                { Score: < 16 } => new DoHitAction(),
-                { Score: >= 16 and <= 21 } => _random.NextDouble() > 0.90 ? new DoHitAction() : new StandAction(),
+                { Score: < 17 } => new HitAction(),
+                { Score: >= 17 } =>  new StandAction(),
                 _ => new DoNothingAction(),
             };
         }
-
 
         return new DoNothingAction();
     }
