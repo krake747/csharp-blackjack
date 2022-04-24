@@ -52,15 +52,6 @@ public class Hand
     }
     
     /// <summary>
-    /// Prints the cards in hand to the console window.
-    /// </summary>
-    public void Print()
-    {
-        foreach (Card card in _cards) card.Print(true);
-        Console.WriteLine($"({Score})");
-    }
-    
-    /// <summary>
     /// Calculates the total score of all face up cards in hand.  
     /// </summary>
     /// <param name="isFaceUp"></param>

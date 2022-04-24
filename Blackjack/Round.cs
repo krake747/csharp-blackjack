@@ -56,6 +56,4 @@
     }
     public Party GetOppositeParty(Character character) => Casino.Characters.Contains(character) ? Gamblers : Casino;
     public Party GetParty(Character character) => Casino.Characters.Contains(character) ? Casino : Gamblers;
-    
-    
 }
