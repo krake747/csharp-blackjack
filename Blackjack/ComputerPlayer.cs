@@ -3,7 +3,7 @@
     private readonly Random _random = new Random();
     public IAction ChooseAction(Round round, Character character)
     {
-        Thread.Sleep(500);
+        Thread.Sleep(750);
         if (character == round.Dealer)
         {
             return character.Hand switch
@@ -17,16 +17,6 @@
         }
 
         List<Character> gamblers = round.GetParty(character).Characters;
-        //if (gamblers.Contains(character))
-        //{
-        //    return character.Hand switch
-        //    {
-        //        { Score: < 17 } => new HitAction(),
-        //        { Score: >= 17 } => new StandAction(),
-        //        _ => new DoNothingAction(),
-        //    };
-        //}
-
         if (gamblers.Contains(character))
         {
             Hand gamblersHand = character.Hand;
@@ -36,12 +26,13 @@
             {
                 // Score 8 to 17
                 ({ Score: 8 }, { Score: >= 2 and <= 11 }) => new HitAction(),
-                ({ Score: 9 }, { Score: >= 2 and <= 11 }) => new HitAction(),
-                ({ Score: 10 }, { Score: >= 2 and <= 11 }) => new HitAction(),
-                ({ Score: 11 }, { Score: >= 2 and <= 3  or >= 7 and <= 11 }) => new HitAction(),
-                ({ Score: 11 }, { Score: >= 4 and <= 6 }) => new StandAction(),
-                ({ Score: 12 }, { Score: >= 2 and <= 6 }) => new StandAction(),
-                ({ Score: 12 }, { Score: >= 7 and <= 11 }) => new HitAction(),
+                ({ Score: 9 }, { Score: >= 3 and <= 6 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
+                ({ Score: 9 }, { Score: 2 or >=7 and <= 11 }) => new HitAction(),
+                ({ Score: 10 }, { Score: >= 2 and <= 9 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
+                ({ Score: 10 }, { Score: >= 10 and <= 11 }) => new HitAction(),
+                ({ Score: 11 }, { Score: >= 2 and <= 11 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
+                ({ Score: 12 }, { Score: >= 2 and <= 3  or >= 7 and <= 11 }) => new HitAction(),
+                ({ Score: 12 }, { Score: >= 4 and <= 6 }) => new StandAction(),
                 ({ Score: 13 }, { Score: >= 2 and <= 6 }) => new StandAction(),
                 ({ Score: 13 }, { Score: >= 7 and <= 11 }) => new HitAction(),
                 ({ Score: 14 }, { Score: >= 2 and <= 6 }) => new StandAction(),
@@ -53,10 +44,17 @@
                 ({ Score: 17 }, { Score: >= 2 and <= 11 }) => new StandAction(),
                 ({ Score: 17 }, { Rank: Rank.Ace }) => new StandAction(),
                 // Hand contains 1 Ace 
+                ({ AceAndTwo: true }, { Score: >= 5 and <= 6 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
                 ({ AceAndTwo: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
+                ({ AceAndThree: true }, { Score: >= 5 and <= 6 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
                 ({ AceAndThree: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
+                ({ AceAndFour: true }, { Score: >= 4 and <= 6 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
                 ({ AceAndFour: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
+                ({ AceAndFive: true }, { Score: >= 4 and <= 6 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
                 ({ AceAndFive: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
+                ({ AceAndSix: true }, { Score: >= 3 and <= 6 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
+                ({ AceAndSix: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
+                ({ AceAndSeven: true }, { Score: >= 3 and <= 6 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new StandAction(),
                 ({ AceAndSeven: true }, { Score: >= 2 and <= 8 }) => new StandAction(),
                 ({ AceAndSeven: true }, { Score: >= 9 and <= 11 }) => new HitAction(),
                 ({ AceAndEight: true }, { Score: >= 2 and <= 11 }) => new StandAction(),
@@ -64,6 +62,7 @@
                 ({ Twos: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
                 ({ Threes: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
                 ({ Fours: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
+                ({ Fives: true }, { Score: >= 2 and <= 9 }) => _random.NextDouble() > 0.5 ? new DoubleDownAction() : new HitAction(),
                 ({ Fives: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
                 ({ Sixes: true }, { Score: >= 2 and <= 11 }) => new HitAction(),
                 ({ Sevens: true }, { Score: >= 2 and <= 11 }) => new HitAction(),

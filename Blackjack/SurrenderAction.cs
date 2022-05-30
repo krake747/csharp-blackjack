@@ -3,5 +3,5 @@
 /// </summary>
 public class SurrenderAction : IAction
 {
-    public void Run(Round round, Character character) => Console.WriteLine($"{character.Name} did NOTHING.");
+    public void Run(Round round, Character character) => Console.WriteLine($"{character.Name} SURRENDERED.");
 }
