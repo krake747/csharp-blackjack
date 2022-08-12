@@ -94,7 +94,7 @@
             ({ Nines: true }, { Score: 7 or 10 or 11 }) => new StandAction(),
             ({ Tens: true }, { Score: >= 2 and <= 11 }) => new StandAction(),
             ({ Aces: true }, { Score: >= 2 and <= 11 }) => new SplitAction(),
-
+            // Basic Actions
             ({ Score: < 17 }, _) => new HitAction(),
             ({ Score: >= 17 }, _) => new StandAction(),
 
