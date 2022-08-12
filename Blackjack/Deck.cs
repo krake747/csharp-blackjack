@@ -57,14 +57,11 @@ public class Deck
     /// <returns>the top card</returns>
     public Card? Peek(bool isFaceUp = true)
     {
-        if (!IsEmpty)
-        {
-            Card topCard = Cards.Peek();
-            if (isFaceUp && !topCard.IsFaceUp) topCard.FlipOver();
-            return topCard;
-        }
-        else
-            return null;
+        if (IsEmpty) return null;
+
+        Card topCard = Cards.Peek();
+        if (isFaceUp && !topCard.IsFaceUp) topCard.FlipOver();
+        return topCard;
     }
 
     /// <summary>
@@ -74,14 +71,11 @@ public class Deck
     /// <returns>the top card</returns>
     public Card? Draw(bool isFaceUp = false)
     {
-        if (!IsEmpty)
-        {
-            Card topCard = Cards.Pop();
-            if (isFaceUp && !topCard.IsFaceUp) topCard.FlipOver();
-            return topCard;
-        }
-        else
-            return null;
+        if (IsEmpty) return null;
+
+        Card topCard = Cards.Pop();
+        if (isFaceUp && !topCard.IsFaceUp) topCard.FlipOver();
+        return topCard;
     }
 
     /// <summary>
