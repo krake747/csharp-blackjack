@@ -24,8 +24,20 @@
         // Run rounds until the final outcome is known.
         while (!IsOver)
         {
+            // Dealer checks their face down card to see if they have Blackjack.
+            if (_winChecker.DealerHasBlackjack)
+            {
+                // Dealer reveals hidden card.
+                Console.WriteLine($"{Dealer.Name} is checking the hidden card for blackjack...");
+                Casino.Player.ChooseAction(this, Dealer).Run(this, Dealer);
+                Console.WriteLine();
+                RoundRenderer.Render(this, (Character)Dealer);
+
+                if (_winChecker.IsDealerRoundOver) break;
+            }
+
             // Run Gambler round until all gamblers stand, are bust or have Blackjack.
-            while (!_winChecker.IsGamblersOver)
+            while (!_winChecker.IsGamblersRoundOver)
             {
                 // For each Gambler on the table do action.
                 foreach (Character gambler in Gamblers.Characters)
@@ -40,7 +52,7 @@
 
                     RoundRenderer.Render(this, gambler);
 
-                    if (_winChecker.IsGamblersOver) break;
+                    if (_winChecker.IsGamblersRoundOver) break;
                 }
             }
 
@@ -48,8 +60,8 @@
             Casino.Player.ChooseAction(this, Dealer).Run(this, Dealer);
             Console.WriteLine();
             RoundRenderer.Render(this, (Character)Dealer);
-            
-            if (_winChecker.IsDealerOver) break;
+
+            if (_winChecker.IsDealerRoundOver) break;
         }
 
         Console.WriteLine($"Round is over!");

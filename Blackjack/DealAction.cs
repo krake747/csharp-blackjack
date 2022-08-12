@@ -10,7 +10,7 @@
         //Second Turn
         foreach (Character gambler in gamblers) gambler.Hand.AddCard(round.Deck, isFaceUp: true);
         dealer.Hand.AddCard(round.Deck, isFaceUp: false);
-
+ 
         Console.WriteLine("Deal round is over.");
         Console.WriteLine();
     }

@@ -8,23 +8,25 @@ public class Hand
     public int Score => CalculateScore(true);
     public int HiddenScore => CalculateScore();
     public bool AllFaceUp => _cards.All(c => c.IsFaceUp);
-    public bool AceAndTwo => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 2) && _cards.Count <= 2;
-    public bool AceAndThree => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 3) && _cards.Count <= 2;
-    public bool AceAndFour => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 4) && _cards.Count <= 2;
-    public bool AceAndFive => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 5) && _cards.Count <= 2;
-    public bool AceAndSix => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 6) && _cards.Count <= 2;
-    public bool AceAndSeven => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 7) && _cards.Count <= 2;
-    public bool AceAndEight => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 8) && _cards.Count <= 2;
-    public bool Twos => _cards.All(c => c.Score == 2) && _cards.Count <= 2;
-    public bool Threes => _cards.All(c => c.Score == 3) && _cards.Count <= 2;
-    public bool Fours => _cards.All(c => c.Score == 4) && _cards.Count <= 2;
-    public bool Fives => _cards.All(c => c.Score == 5) && _cards.Count <= 2;
-    public bool Sixes => _cards.All(c => c.Score == 6) && _cards.Count <= 2;
-    public bool Sevens => _cards.All(c => c.Score == 7) && _cards.Count <= 2;
-    public bool Eights => _cards.All(c => c.Score == 8) && _cards.Count <= 2;
-    public bool Nines => _cards.All(c => c.Score == 9) && _cards.Count <= 2;
-    public bool Tens => _cards.All(c => c.Score == 10) && _cards.Count <= 2;
-    public bool Aces => _cards.All(c => c.Rank == Rank.Ace) && _cards.Count <= 2;
+    public bool TwoCardsInHand => _cards.Count == 2;
+    public bool AceAndTwo => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 2) && TwoCardsInHand;
+    public bool AceAndThree => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 3) && TwoCardsInHand;
+    public bool AceAndFour => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 4) && TwoCardsInHand;
+    public bool AceAndFive => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 5) && TwoCardsInHand;
+    public bool AceAndSix => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 6) && TwoCardsInHand;
+    public bool AceAndSeven => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 7) && TwoCardsInHand;
+    public bool AceAndEight => _cards.Any(c => c.Rank == Rank.Ace) && _cards.Any(c => c.Score == 8) && TwoCardsInHand;
+    public bool IsPair => TwoCardsInHand ? _cards[0].Rank == _cards[1].Rank : false;
+    public bool Twos => AllCardsEqualScore(2) && TwoCardsInHand;
+    public bool Threes => AllCardsEqualScore(3) && TwoCardsInHand;
+    public bool Fours => AllCardsEqualScore(4) && TwoCardsInHand;
+    public bool Fives => AllCardsEqualScore(5) && TwoCardsInHand;
+    public bool Sixes => AllCardsEqualScore(6) && TwoCardsInHand;
+    public bool Sevens => AllCardsEqualScore(7) && TwoCardsInHand;
+    public bool Eights => AllCardsEqualScore(8) && TwoCardsInHand;
+    public bool Nines => AllCardsEqualScore(9) && TwoCardsInHand;
+    public bool Tens => AllCardsEqualScore(10) && TwoCardsInHand;
+    public bool Aces => _cards.All(c => c.Rank == Rank.Ace) && TwoCardsInHand;
 
 
     /// <summary>
@@ -68,6 +70,8 @@ public class Hand
     {
         foreach (Card card in Cards) if (!card.IsFaceUp) card.FlipOver();
     }
+
+    private bool AllCardsEqualScore(int score) => _cards.All(c => c.Score == score);
     
     /// <summary>
     /// Calculates the total score of all face up cards in hand.  

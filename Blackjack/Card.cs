@@ -11,11 +11,12 @@ public class Card
     /// <summary>
     /// Constructs a card with the given suit and rank.
     /// </summary>
-    public Card(Suit suit, Rank rank)
+    public Card(Suit suit, Rank rank, bool isFaceUp = false)
     { 
         Suit = suit;
         Rank = rank;
         Score = rank.GetScore();
+        IsFaceUp = isFaceUp;
     }
     
     /// <summary>

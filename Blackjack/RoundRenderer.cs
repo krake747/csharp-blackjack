@@ -21,6 +21,13 @@
         {
             ConsoleColor color = character == activeCharacter ? ConsoleColor.Yellow : ConsoleColor.Gray;
             ColoredConsole.Write($"{character.Name,10} ", color); PrintHand(character); PrintAction(character);
+
+            if (character.SplitHand is not null)
+            {
+                Console.Write(" || ");
+                PrintSplitHand(character);
+            }
+
             Console.WriteLine();
         }
 
@@ -37,6 +44,16 @@
     {
         foreach (Card card in character.Hand.Cards) card.Print(true);
         Console.Write($"({character.Hand.Score})");
+    }
+
+    /// <summary>
+    /// Prints the cards of the splitted hand to the console.
+    /// </summary>
+    /// <param name="character"></param>
+    public static void PrintSplitHand(Character character)
+    {
+        foreach (Card card in character.SplitHand!.Cards) card.Print(true);
+        Console.Write($"({character.SplitHand.Score})");
     }
 
     /// <summary>
