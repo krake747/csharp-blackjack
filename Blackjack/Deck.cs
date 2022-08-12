@@ -41,6 +41,7 @@ public class Deck
 
         Initialize(cards);
     }
+
     /// <summary>
     /// Add card face down to the deck.
     /// </summary>
@@ -50,6 +51,7 @@ public class Deck
         if (card.IsFaceUp) card.FlipOver();
         Cards.Push(card);
     }
+
     /// <summary>
     /// Peek the top card from the deck. If the deck is empty, returns null
     /// </summary>
