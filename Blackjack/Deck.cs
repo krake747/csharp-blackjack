@@ -63,6 +63,8 @@ public class Deck
         if (isFaceUp && !topCard.IsFaceUp) topCard.FlipOver();
         return topCard;
     }
+            return null;
+    }
 
     /// <summary>
     /// Draw the top card from the deck. If the deck is empty, returns null
