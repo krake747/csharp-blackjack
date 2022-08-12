@@ -11,27 +11,9 @@ public static class ColoredConsole
     /// <param name="color"></param>
     public static void WriteLine(string text, ConsoleColor color)
     {
-        ConsoleColor previousColor = Console.ForegroundColor;
         Console.ForegroundColor = color;
         Console.WriteLine(text);
-        Console.ForegroundColor = previousColor;
-    }
-
-    /// <summary>
-    /// Writes a line of text in a specific color and a specific background color.
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="color"></param>
-    /// <param name="backgroundColor"></param>
-    public static void WriteLine(string text, ConsoleColor color, ConsoleColor backgroundColor)
-    {
-        ConsoleColor previousColor = Console.ForegroundColor;
-        ConsoleColor previousBackgroundColor = Console.BackgroundColor;
-        Console.ForegroundColor = color;
-        Console.BackgroundColor = backgroundColor;
-        Console.WriteLine(text);
-        Console.ForegroundColor = previousColor;
-        Console.BackgroundColor = previousBackgroundColor;
+        Console.ResetColor();
     }
 
     /// <summary>
@@ -41,27 +23,9 @@ public static class ColoredConsole
     /// <param name="color"></param>
     public static void Write(string text, ConsoleColor color)
     {
-        ConsoleColor previousColor = Console.ForegroundColor;
         Console.ForegroundColor = color;
         Console.Write(text);
-        Console.ForegroundColor = previousColor;
-    }
-
-    /// <summary>
-    /// Writes some text (no new line) in a specific color and a specific background color.
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="color"></param>
-    /// <param name="backgroundColor"></param>
-    public static void Write(string text, ConsoleColor color, ConsoleColor backgroundColor)
-    {
-        ConsoleColor previousColor = Console.ForegroundColor;
-        ConsoleColor previousBackgroundColor = Console.BackgroundColor;
-        Console.ForegroundColor = color;
-        Console.BackgroundColor = backgroundColor;
-        Console.Write(text);
-        Console.ForegroundColor = previousColor;
-        Console.BackgroundColor = previousBackgroundColor;
+        Console.ResetColor();
     }
 
     /// <summary>
@@ -72,12 +36,10 @@ public static class ColoredConsole
     /// <returns></returns>
     public static string Prompt(string questionToAsk)
     {
-        ConsoleColor previousColor = Console.ForegroundColor;
-        Console.ForegroundColor = ConsoleColor.Gray;
-        Console.Write(questionToAsk + " ");
+        Write($"{questionToAsk} ", ConsoleColor.Gray);
         Console.ForegroundColor = ConsoleColor.Cyan;
         string input = Console.ReadLine() ?? ""; // If we got null, use empty string instead.
-        Console.ForegroundColor = previousColor;
+        Console.ResetColor();
         return input;
     }
 }
